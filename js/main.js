@@ -1,3 +1,10 @@
+// ---- Contacto ofuscado: arma enlaces y textos (teléfono, correo, WhatsApp) desde data-href / data-text ----
+const decode = s => atob(s).split('').reverse().join('');
+document.querySelectorAll('[data-href],[data-text]').forEach(el => {
+  if (el.dataset.href) el.href = decode(el.dataset.href);
+  if (el.dataset.text) el.textContent = decode(el.dataset.text);
+});
+
 // ---- Tema claro / oscuro (se recuerda la elección) ----
 const root = document.documentElement, themeBtn = document.getElementById('themeBtn');
 const setLabel = () => themeBtn.setAttribute('aria-label', root.getAttribute('data-bs-theme') === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
@@ -21,7 +28,7 @@ document.querySelectorAll('#menu .nav-link, #menu .btn').forEach(a => a.addEvent
 
 // ---- Galería: foto ampliada con flechas, teclado y deslizar ----
 const lb = document.getElementById('lb');
-const photos = [...document.querySelectorAll('.gallery .g-item img')].map(i => ({ src: i.currentSrc || i.src, alt: i.alt }));
+const photos = [...document.querySelectorAll('.gallery .g-item img')].map(i => ({ src: i.dataset.full || i.src, alt: i.alt }));
 if (lb && photos.length) {
   let cur = 0, last = null, x0 = null;
   const img = document.getElementById('lb-img');
@@ -51,3 +58,10 @@ if (svcList) svcList.addEventListener('shown.bs.collapse', e => {
   const r = card.getBoundingClientRect();
   if (r.top < 90 || r.bottom > window.innerHeight) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
+
+// ---- Barra de contacto en celular: aparece al dejar atrás el botón de la portada ----
+const mbar = document.getElementById('mbar'), heroCtas = document.querySelector('.hero-ctas');
+if (mbar && heroCtas) new IntersectionObserver(([e]) => {
+  const show = !e.isIntersecting && e.boundingClientRect.top < 0;
+  mbar.classList.toggle('show', show); mbar.inert = !show;
+}).observe(heroCtas);
