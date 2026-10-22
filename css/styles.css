@@ -1078,3 +1078,25 @@ body {
 [data-bs-theme="dark"] .svc-chev{color:var(--volt)}
 /* ---- Galería: <picture> no altera el tamaño de la foto dentro de la tarjeta ---- */
 .g-item picture,.g-slide picture{display:contents}
+
+/* ---- Portada: logo de la empresa difuminado como fondo (sin foto) ---- */
+.hero-bg{-webkit-mask-image:none;mask-image:none;
+  background:radial-gradient(720px 460px at 88% 18%,rgba(245,217,10,.22),transparent 65%),
+             linear-gradient(rgba(22,24,31,.045) 1px,transparent 1px) 0 0/44px 44px,
+             linear-gradient(90deg,rgba(22,24,31,.045) 1px,transparent 1px) 0 0/44px 44px,#fff}
+[data-bs-theme=dark] .hero-bg{
+  background:radial-gradient(720px 460px at 88% 18%,rgba(245,217,10,.14),transparent 65%),
+             linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/44px 44px,
+             linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px) 0 0/44px 44px,#111215}
+.hero-bg::before{background:url(../images/logo.svg) 96% 46%/min(44%,680px) auto no-repeat;
+  filter:blur(5px);opacity:.16;-webkit-mask-image:none;mask-image:none}
+[data-bs-theme=dark] .hero-bg::before{background-image:url(../images/logo-light.svg);filter:blur(5px);opacity:.2}
+.hero-bg::after{background:linear-gradient(180deg,rgba(255,255,255,0) 75%,#fff 100%)}
+[data-bs-theme=dark] .hero-bg::after{background:linear-gradient(180deg,rgba(17,18,21,0) 75%,#111215 100%)}
+@media(max-width:991px){
+  .hero-bg::before{background-size:min(86%,560px) auto;background-position:50% 17%;opacity:.2}
+  [data-bs-theme=dark] .hero-bg::before{opacity:.24}
+  .hero-bg::after{background:linear-gradient(180deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.7) 55%,#fff 100%)}
+  [data-bs-theme=dark] .hero-bg::after{background:linear-gradient(180deg,rgba(17,18,21,0) 30%,rgba(17,18,21,.7) 55%,#111215 100%)}
+}
+@media(max-width:767px){.hero-bg::before{background-size:92% auto;background-position:50% 15%}}
